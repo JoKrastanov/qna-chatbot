@@ -1,4 +1,4 @@
-import openai
+from openai import ChatCompletion
 
 openai_model = "gpt-3.5-turbo"
 
@@ -17,7 +17,7 @@ def get_answer(context, query):
             GPT generated answer based on the provided context
     """
     prompt_input = create_prompt(context, query)
-    response = openai.ChatCompletion.create(
+    response = ChatCompletion.create(
         model=openai_model,
         messages=[
             {

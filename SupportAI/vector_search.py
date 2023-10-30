@@ -1,15 +1,16 @@
-import os
+from os import getenv
 import pinecone
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
+# Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 load_dotenv()
 
 index_name = 'support-qna'
 pre_trained_model='all-MiniLM-L6-v2'
 
-pinecone_api_key=os.getenv('PINECONE-KEY')
-pinecone_env=os.getenv('PINECONE-ENV')
+pinecone_api_key=getenv('PINECONE-KEY')
+pinecone_env=getenv('PINECONE-ENV')
 
 model = SentenceTransformer(pre_trained_model)
 pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)

@@ -1,4 +1,4 @@
-import os
+from os import getenv
 import streamlit as st
 import openai
 from dotenv import load_dotenv
@@ -9,8 +9,7 @@ from utils import extract_text_from_html
 
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 load_dotenv()
-openai_api_key = os.getenv('OPENAI-API-KEY')
-openai.api_key = str(openai_api_key)
+openai.api_key = getenv('OPENAI-API-KEY')
 
 # header of the app
 _ , col2,_ = st.columns([1,7,1])
@@ -44,7 +43,7 @@ with col2:
 if button and query:
     try:
         with st.spinner("Finding an answer..."):
-            res = "\n\n".join(find_best_matches(query))
+            res = find_best_matches(query)
             context = "\n\n".join(res)
             answer = get_answer(context, query)
             st.success("Answer: " + answer)
