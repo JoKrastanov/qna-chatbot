@@ -1,4 +1,4 @@
-from os import getenv
+from os import getenv, path
 import pinecone
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
@@ -25,11 +25,12 @@ def upload_chunks(chunk_data, html):
         html (UploadedFile): The uploaded HTML file (used to store its name).
     """
     if html:
+        file_title = path.splitext(html.name)[0]
         for i in range(len(chunk_data)):
             chunk = chunk_data[i]
             chunkInfo=(str(i),
                     model.encode(chunk).tolist(),
-                    {'title':str(html),'context':chunk})
+                    {'title':file_title,'context':chunk})
             index.upsert([chunkInfo])
         
     
