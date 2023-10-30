@@ -33,11 +33,15 @@ with col2:
         submit_button = st.sidebar.button("Send")
 
         if submit_button:
-            with st.spinner("Updating the knowledgebase..."):
-                for doc in html:
-                    data = extract_text_from_html(doc)
-                    upload_chunks(data, doc)
-            st.success("Knowledgebase updated")    
+            try:
+                with st.spinner("Updating the knowledgebase..."):
+                    for doc in html:
+                        data = extract_text_from_html(doc)
+                        upload_chunks(data, doc)
+                st.success("Knowledgebase updated")   
+            except Exception as e:
+                print(e)
+                st.error(e) 
 
 # Handle question answering
 if button and query:
