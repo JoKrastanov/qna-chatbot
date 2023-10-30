@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+# Define langchain config
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
+
 # splits text into pre-determined chunks + adds a small overlap for better context awareness
-def split_text(text, chunk_size=1000, chunk_overlap=20):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+def split_text(text):
     texts = text_splitter.split_text(text)
     return texts
 
@@ -36,6 +38,11 @@ def extract_text_from_html(html):
         # Remove all <script> and <style> tags
         for script in soup(["script", "style"]):
             script.extract()
+
+        # Removes the redundant info table at the bottom of each document
+        element = soup.find("table", id="infobox_support")
+        if element:
+            element.decompose()
 
         text = soup.get_text()
         
