@@ -24,7 +24,7 @@ with col2:
 
     st.sidebar.header("Add to Chatbot knowledge")
 
-    html = st.sidebar.file_uploader("Choose an HTML file", type="html")
+    html = st.sidebar.file_uploader("Choose an HTML file", type="html", accept_multiple_files=True)
 
     if html:
         st.sidebar.markdown("File successfully uploaded!")
@@ -32,9 +32,10 @@ with col2:
 
         if submit_button:
             with st.spinner("Updating the database..."):
-                data = extract_text_from_html(html)
-                encodeaddData(data, html)
-                st.success("Chatbot updated")
+                for doc in html:
+                    data = extract_text_from_html(doc)
+                    encodeaddData(data, doc)
+                    st.success("Chatbot updated")
 
 if button and query:
     try:
