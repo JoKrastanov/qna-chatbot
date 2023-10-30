@@ -31,6 +31,5 @@ def encodeaddData(corpusData, html):
 def find_k_best_match(query,k=3):
     query_em = model.encode(str(query)).tolist()
     result = index.query(query_em, top_k=k, includeMetadata=True)
-    # print(result)
     return [result['matches'][i]['metadata']['context'] for i in range(k)]
         
