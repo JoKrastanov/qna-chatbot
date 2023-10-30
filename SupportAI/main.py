@@ -7,8 +7,8 @@ from qanda import *
 from vector_search import *
 from utils import extract_text_from_html
 
+# Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 load_dotenv()
-
 openai_api_key = os.getenv('OPENAI-API-KEY')
 openai.api_key = str(openai_api_key)
 
@@ -16,7 +16,9 @@ openai.api_key = str(openai_api_key)
 _ , col2,_ = st.columns([1,7,1])
 with col2:
     col2 = st.header("Axians SupportAI")
+    # Keep track of uploaded HTML files
     html = False
+    # Keep track of the provided user question
     query = False
 
     query = st.text_input("How can I help you?")
@@ -26,24 +28,26 @@ with col2:
 
     html = st.sidebar.file_uploader("Choose an HTML file", type="html", accept_multiple_files=True)
 
+    # Handle uploading of files
     if html:
         st.sidebar.markdown("File successfully uploaded!")
         submit_button = st.sidebar.button("Send")
 
         if submit_button:
-            with st.spinner("Updating the database..."):
+            with st.spinner("Updating the knowledgebase..."):
                 for doc in html:
                     data = extract_text_from_html(doc)
-                    encodeaddData(data, doc)
-                    st.success("Chatbot updated")
+                    upload_chunks(data, doc)
+            st.success("Knowledgebase updated")    
 
+# Handle question answering
 if button and query:
     try:
         with st.spinner("Finding an answer..."):
-            res = find_k_best_match(query)
+            res = "\n\n".join(find_best_matches(query))
             context = "\n\n".join(res)
-            prompt = prompt(context, query)
-            answer = get_answer(prompt)
+            answer = get_answer(context, query)
             st.success("Answer: " + answer)
     except Exception as e:
         print(e)
+        st.error(e)
