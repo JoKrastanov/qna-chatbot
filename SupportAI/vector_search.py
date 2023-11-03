@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 index_name = 'support-qna'
-pre_trained_model='all-MiniLM-L6-v2'
+pre_trained_model='paraphrase-multilingual-MiniLM-L12-v2'
 
 pinecone_api_key=getenv('PINECONE-KEY')
 pinecone_env=getenv('PINECONE-ENV')
@@ -15,6 +15,12 @@ pinecone_env=getenv('PINECONE-ENV')
 model = SentenceTransformer(pre_trained_model)
 pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
 
+if index_name not in pinecone.list_indexes():
+    pinecone.create_index(
+        name=index_name,
+        metric='cosine',
+        dimension=384
+    )
 index = pinecone.Index(index_name)
 
 def upload_chunks(chunk_data, html):

@@ -3,7 +3,7 @@ from openai import ChatCompletion
 openai_model = "gpt-3.5-turbo"
 
 def create_prompt(context, query):
-    header = "Answer the question as truthfully as possible using the provided context" #, and if the answer is not contained within the text and requires some latest information to be updated, print 'Sorry Not Sufficient context to answer query' \n"
+    header = "Answer the question as truthfully as possible using the provided context, and if the answer is not contained within the text and requires some latest information to be updated, print 'Sorry Not Sufficient context to answer query' \n"
     return header + context + "\n\n" + query + "\n"  
 
 def get_answer(context, query):
