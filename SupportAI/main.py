@@ -1,5 +1,6 @@
 from os import getenv
 import streamlit as st
+from streamlit_chat import message
 import openai
 from dotenv import load_dotenv
 
@@ -11,6 +12,8 @@ from utils import extract_text_from_html
 load_dotenv()
 openai.api_key = getenv('OPENAI-API-KEY')
 
+messages = []
+
 # header of the app
 _ , col2,_ = st.columns([1,7,1])
 with col2:
@@ -18,10 +21,7 @@ with col2:
     # Keep track of uploaded HTML files
     html = False
     # Keep track of the provided user question
-    query = False
-
-    query = st.text_input("How can I help you?")
-    button = st.button("Submit")
+    query = False    
 
     st.sidebar.header("Add to Chatbot knowledge")
 
@@ -43,14 +43,23 @@ with col2:
                 print(e)
                 st.error(e) 
 
+query = st.chat_input("Ask a question")
+messages.append({"role": "assistant", "content": "Welcome to SupportAI! Your AI powered support chatbot for the Exact Globe system. \n\n How can I help you?"})
+
 # Handle question answering
-if button and query:
+if query:
     try:
-        with st.spinner("Finding an answer..."):
-            res = find_best_matches(query)
-            context = "\n\n".join(res)
-            answer = get_answer(context, query)
-            st.success("Answer: " + answer)
+        messages.append({"role": "user", "content": query})
+        res = find_best_matches(query)
+        context = "\n\n".join(res)
+        answer = get_answer(context, query)
+        messages.append({"role": "assistant", "content": answer})
     except Exception as e:
         print(e)
         st.error(e)
+
+if messages:
+    for i in range(len(messages)):
+        curr_message = messages[i]
+        if curr_message is not None:
+            message(curr_message["content"], is_user=curr_message["role"] == "user", key=str(i))
