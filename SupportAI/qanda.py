@@ -13,7 +13,9 @@ def create_prompt(context, query):
     respond with 'I'm sorry, I do not have that information.'
     """
     chat_history.append("User:" + query)
-    return header + "Context:" + context + "\n\n" + "Question:" + query + "\n\n" + "Chat history:" + ' '.join([str(elem) for elem in chat_history]) + "\n" 
+    prompt = header + "Context:" + context + "\n\n" + "Question:" + query + "\n\n" + "Chat history:" + ' '.join([str(elem) for elem in chat_history]) + "\n" 
+
+    return prompt
 
 def get_answer(context, query):
     """ Sends the prompt to a specified OpenAI model
@@ -37,4 +39,5 @@ def get_answer(context, query):
     )
     response_value = response['choices'][0]['message']['content']
     chat_history.append("Chatbot:" + response_value)
+    
     return response_value

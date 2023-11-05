@@ -1,8 +1,4 @@
 from bs4 import BeautifulSoup
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-
-# # Define langchain config
-# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=20)
 import nltk
 from langchain.text_splitter import CharacterTextSplitter
 
@@ -11,8 +7,7 @@ text_splitter = CharacterTextSplitter(chunk_size=256, chunk_overlap=0)
 
 # splits text into pre-determined chunks + adds a small overlap for better context awareness
 def split_text(text):
-    texts = text_splitter.split_text(text)
-    return texts
+    return text_splitter.split_text(text)
 
 # returs the contents of and HTML file
 def read_html_file(uploaded_file):
@@ -40,7 +35,7 @@ def extract_text_from_html(html):
         html_contents = read_html_file(html)
         soup = BeautifulSoup(html_contents, 'html.parser')
 
-        # Remove all <script> and <style> tags
+        # Remove all unwanted tags
         for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
             script.extract()
 
@@ -50,12 +45,12 @@ def extract_text_from_html(html):
             element.decompose()
 
         text = soup.get_text()
-        
+
         # Formulate HTML contents into a single text, removing white-space and adding line formatting
         lines = (line.strip() for line in text.splitlines())
-        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-        text = '. '.join(chunk for chunk in chunks if chunk)
-        chunked_text = split_text(text)
+        formatted_lines = (phrase.strip() for line in lines for phrase in line.split("  "))
+        formatted_text = '. '.join(line for line in formatted_lines if line)
+        chunked_text = split_text(formatted_text)
 
         return chunked_text
     except Exception as e:

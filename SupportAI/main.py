@@ -25,26 +25,26 @@ with col2:
 
     st.sidebar.header("Add to Chatbot knowledge")
 
-    html = st.sidebar.file_uploader("Choose an HTML file", type="html", accept_multiple_files=True)
-
-    # Handle uploading of files
-    if html:
-        st.sidebar.markdown("File successfully uploaded!")
-        submit_button = st.sidebar.button("Send")
-
-        if submit_button:
-            try:
-                with st.spinner("Updating the knowledgebase..."):
-                    for doc in html:
-                        data = extract_text_from_html(doc)
-                        upload_chunks(data, doc)
-                st.success("Knowledgebase updated")   
-            except Exception as e:
-                print(e)
-                st.error(e) 
+    html = st.sidebar.file_uploader("Choose an HTML file", type="html", accept_multiple_files=True) 
 
 query = st.chat_input("Ask a question")
 messages.append({"role": "assistant", "content": "Welcome to SupportAI! Your AI powered support chatbot for the Exact Globe system. \n\n How can I help you?"})
+
+# Handle uploading of files
+if html:
+    st.sidebar.markdown("File successfully uploaded!")
+    submit_button = st.sidebar.button("Send")
+
+    if submit_button:
+        try:
+            with st.spinner("Updating the knowledgebase..."):
+                for doc in html:
+                    data = extract_text_from_html(doc)
+                    upload_chunks(data, doc)
+            st.success("Knowledgebase updated")   
+        except Exception as e:
+            print(e)
+            st.error(e)
 
 # Handle question answering
 if query:

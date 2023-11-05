@@ -17,6 +17,7 @@ model = SentenceTransformer(pre_trained_model)
 pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
 
 if index_name not in pinecone.list_indexes():
+    print("Creating new Pinecone index: ", index_name)
     pinecone.create_index(
         name=index_name,
         metric='cosine',
