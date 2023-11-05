@@ -1,8 +1,13 @@
 from bs4 import BeautifulSoup
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-# Define langchain config
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
+# # Define langchain config
+# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=20)
+import nltk
+from langchain.text_splitter import CharacterTextSplitter
+
+nltk.download('punkt')
+text_splitter = CharacterTextSplitter(chunk_size=256, chunk_overlap=0)
 
 # splits text into pre-determined chunks + adds a small overlap for better context awareness
 def split_text(text):
@@ -36,7 +41,7 @@ def extract_text_from_html(html):
         soup = BeautifulSoup(html_contents, 'html.parser')
 
         # Remove all <script> and <style> tags
-        for script in soup(["script", "style"]):
+        for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
             script.extract()
 
         # Removes the redundant info table at the bottom of each document
@@ -49,9 +54,10 @@ def extract_text_from_html(html):
         # Formulate HTML contents into a single text, removing white-space and adding line formatting
         lines = (line.strip() for line in text.splitlines())
         chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-        text = '\n'.join(chunk for chunk in chunks if chunk)
+        text = '. '.join(chunk for chunk in chunks if chunk)
+        chunked_text = split_text(text)
 
-        return split_text(text)
+        return chunked_text
     except Exception as e:
         print(f"An error occurred while extracting text content from HTML: {str(e)}")
         return None
