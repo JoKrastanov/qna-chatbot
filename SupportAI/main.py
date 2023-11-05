@@ -49,6 +49,7 @@ messages.append({"role": "assistant", "content": "Welcome to SupportAI! Your AI 
 # Handle question answering
 if query:
     try:
+        # TODO: When user asks a follow-up question figure out how to use the previous question as well when looking for data in the vector db
         messages.append({"role": "user", "content": query})
         res = find_best_matches(query)
         context = "\n\n".join(res)
