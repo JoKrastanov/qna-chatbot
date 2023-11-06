@@ -1,6 +1,6 @@
 from os import getenv
 import streamlit as st
-from streamlit_chat import message
+import streamlit_chat
 import openai
 from dotenv import load_dotenv
 
@@ -11,6 +11,7 @@ from utils import extract_text_from_html
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 load_dotenv()
 openai.api_key = getenv('OPENAI-API-KEY')
+
 
 messages = []
 
@@ -68,4 +69,4 @@ if messages:
                 avatar = "big-ears-neutral"
             else:
                 avatar = "open-peeps"
-            message(curr_message["content"], is_user=curr_message["role"] == "user", key=str(i), avatar_style=avatar)
+            streamlit_chat.message(curr_message["content"], is_user=curr_message["role"] == "user", key=str(i), avatar_style=avatar)
