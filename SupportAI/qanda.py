@@ -1,6 +1,6 @@
 from openai import ChatCompletion
 
-openai_model = "gpt-4"
+openai_model = "gpt-3.5-turbo"
 
 chat_history = []
 

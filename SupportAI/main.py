@@ -63,4 +63,9 @@ if messages:
     for i in range(len(messages)):
         curr_message = messages[i]
         if curr_message is not None:
-            message(curr_message["content"], is_user=curr_message["role"] == "user", key=str(i))
+            avatar = ''
+            if curr_message["role"] == "user":
+                avatar = "big-ears-neutral"
+            else:
+                avatar = "open-peeps"
+            message(curr_message["content"], is_user=curr_message["role"] == "user", key=str(i), avatar_style=avatar)
