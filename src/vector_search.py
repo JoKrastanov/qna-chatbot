@@ -26,19 +26,17 @@ if index_name not in pinecone.list_indexes():
 index = pinecone.Index(index_name)
 
 
-def upload_chunks(chunk_data, html):
+def upload_chunks(chunk_data, file_title):
     """Uploads the chunked text data into the Pinecone index.
 
     Args:
         chunk_data (str): The text of the HTML document broken up into multiple chunks.
-        html (UploadedFile): The uploaded HTML file (used to store its name).
+        html (str): The name of the uploaded HTML file.
     """
-    if html:
-        file_title = os.path.splitext(html.name)[0]
+    if file_title:
         for chunk in chunk_data:
-            processed_chunk = chunk.replace(
-                '\n', ' ').replace(" One moment please...", '')
-            encoded_chunk = model.encode(processed_chunk).tolist()
+
+            encoded_chunk = model.encode(chunk).tolist()
             chunk_id = str(uuid.uuid4())
 
             vector = {
@@ -46,7 +44,7 @@ def upload_chunks(chunk_data, html):
                 'values': encoded_chunk,
                 'metadata': {
                     'title': file_title,
-                    'context': processed_chunk
+                    'context': chunk
                 }
             }
 
@@ -63,4 +61,11 @@ def find_best_matches(query, k=3):
 
     query_em = model.encode(str(query)).tolist()
     result = index.query(query_em, top_k=k, includeMetadata=True)
-    return [result['matches'][i]['metadata']['context'] for i in range(len(result['matches']))]
+    context_arr = []
+    name_arr = []
+    for i in range(len(result['matches'])):
+        name = result['matches'][i]['metadata']['title']
+        context = result['matches'][i]['metadata']['context']
+        name_arr.append(name)
+        context_arr.append(context)
+    return [list(set(name_arr)), context_arr]
