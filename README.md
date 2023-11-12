@@ -7,6 +7,7 @@ SupportAI is an AI chatbot which uses a predefined knowledge base to answer ques
 regarding the Exact Globe CMS.
 
 - Contribute to knowledgebase
+  > In order to contribute to the knowledgebase put your data in a `data` folder and make sure that if you have images, they are also in the folder so that they can be uploaded to the blob storage 
 - Ask questions and recieve answers
 
 ## Features
