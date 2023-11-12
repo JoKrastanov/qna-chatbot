@@ -15,7 +15,7 @@ if (-not (Get-Command pip -ErrorAction SilentlyContinue)) {
 .\.venv\Scripts\Activate.ps1
 
 # 4. Install app requirements
-pip install -r .\SupportAI\requirements.txt
+pip install -r .\requirements.txt
 
 # 5. Run application
-streamlit run .\SupportAI\main.py
+streamlit run .\main.py
