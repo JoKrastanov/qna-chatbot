@@ -1,8 +1,9 @@
-from openai import ChatCompletion
+import openai
 
 openai_model = "gpt-3.5-turbo"
 
 chat_history = []
+
 
 def create_prompt(context, query):
     header = """
@@ -13,9 +14,12 @@ def create_prompt(context, query):
     respond with 'I'm sorry, I do not have that information.'
     """
     chat_history.append("User:" + query)
-    prompt = header + "Context:" + context + "\n\n" + "Question:" + query + "\n\n" + "Chat history:" + ' '.join([str(elem) for elem in chat_history]) + "\n" 
+    prompt = header + "Context:" + context + "\n\n" + "Question:" + query + \
+        "\n\n" + "Chat history:" + \
+        ' '.join([str(elem) for elem in chat_history]) + "\n"
 
     return prompt
+
 
 def get_answer(context, query):
     """ Sends the prompt to a specified OpenAI model
@@ -28,7 +32,7 @@ def get_answer(context, query):
             GPT generated answer based on the provided context
     """
     prompt_input = create_prompt(context, query)
-    response = ChatCompletion.create(
+    response = openai.ChatCompletion.create(
         model=openai_model,
         messages=[
             {
@@ -39,5 +43,5 @@ def get_answer(context, query):
     )
     response_value = response['choices'][0]['message']['content']
     chat_history.append("Chatbot:" + response_value)
-    
+
     return response_value
