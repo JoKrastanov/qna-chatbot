@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+import bs4
 import nltk
 from langchain.text_splitter import CharacterTextSplitter
 
@@ -38,7 +38,7 @@ def extract_text_from_html(html):
     """
     try:
         html_contents = read_html_file(html)
-        soup = BeautifulSoup(html_contents, 'html.parser')
+        soup = bs4.BeautifulSoup(html_contents, 'html.parser')
 
         # Remove all unwanted tags
         for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
