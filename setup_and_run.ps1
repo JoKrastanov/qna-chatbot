@@ -11,7 +11,10 @@ if (-not (Get-Command pip -ErrorAction SilentlyContinue)) {
     (Invoke-WebRequest -Uri 'https://bootstrap.pypa.io/get-pip.py' -UseBasicParsing).Content | python -
 }
 
-# 3. Activate Python venv(virtual environment)
+#Setup Python venv(virtual environment)
+python -m venv .\.venv
+
+# 3. Activate Python venv
 .\.venv\Scripts\Activate.ps1
 
 # 4. Install app requirements
