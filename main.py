@@ -9,6 +9,8 @@ import src.chat_bot as chat_bot
 import src.vector_search as vector_search
 from streamlit.components.v1 import html
 
+## Test with file:///D:/UNI/DDBL/Axians/Repos/Joan/data/8010846.html
+
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 dotenv.load_dotenv()
 openai.api_key = os.getenv('OPENAI-API-KEY')
