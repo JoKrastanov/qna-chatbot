@@ -3,9 +3,9 @@ import streamlit as st
 import streamlit_chat
 import openai
 import dotenv
-import utils
-import chat_bot
-import vector_search
+import src.utils as utils
+import src.chat_bot as chat_bot
+import src.vector_search as vector_search
 
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 dotenv.load_dotenv()
