@@ -46,7 +46,7 @@ if html:
                 for doc in html:
                     [data, images] = utils.extract_text_from_html(doc)
                     file_name = utils.get_file_name(doc)
-                    azure_storage.upload_images(images, file_name)
+                    # azure_storage.upload_images(images, file_name)
                     vector_search.upload_chunks(data, file_name)
             st.success("Knowledgebase updated")
         except Exception as e:
@@ -62,9 +62,9 @@ if query:
         [files, res] = vector_search.find_best_matches(query)
         context = "\n\n".join(res)
         answer = chat_bot.get_answer(context, query)
-        images = azure_storage.get_files_images(files)
+        # images = azure_storage.get_files_images(files)
 
-        messages.append({"role": "assistant", "data": f'{answer} \n\n {utils.create_img_tags(images)}'})
+        messages.append({"role": "assistant", "data": f'{answer}'}) # \n\n {utils.create_img_tags(images)}'})
     except Exception as e:
         print(e)
         st.error(e)
@@ -79,4 +79,4 @@ if messages:
             else:
                 avatar = "open-peeps"
             chat.message(
-                curr_message["data"], is_user=curr_message["role"] == "user", key=str(i), avatar_style=avatar, allow_html=True)
+                curr_message["data"], is_user=curr_message["role"] == "user", key=str(i), avatar_style=avatar, allow_html=False)
