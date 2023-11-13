@@ -1,6 +1,7 @@
 import openai
 
-openai_model = "gpt-3.5-turbo"
+# openai_model = "gpt-3.5-turbo"
+openai_model = "gpt-3.5-turbo-16k"
 
 chat_history = []
 
