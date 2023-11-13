@@ -25,17 +25,20 @@ SupportAI uses a number of external resouces listed below:
 - [OpenAI GPT] - API for accessing AI models developed by OpenAI.
 - [Pinecone] - database that stores data as mathematical vectors
 - [HuggingFace Pretrained LLM] - Pretrained multilingual llm that transforms sentences to vectors
-
+- [Azure Storage Account] - unique namespace for your Azure Storage data that's accessible from anywhere in the world over HTTP or HTTPS.
 
 ## Prerequisites
 - Pincone project + api key
 - OpenAI API key
+- Azure Subscription + storage account
 
 Create a `.env` file in the root of the project and include the following contents:
 ```sh
 OPENAI-API-KEY={your-openai-key}
 PINECONE-KEY={your-pinecone-key}
 PINECONE-ENV={your-pinecone-env}
+AZURE-STORAGE-CONNECTION-STRING={your-azure-storage-connection-string}
+AZURE-BLOB-CONTAINER={your-blob-container-name}
 ```
 
 ## Installation
@@ -79,5 +82,6 @@ You should see an interface that looks like this:
    [OpenAI GPT]: <https://openai.com/>
    [Pinecone]: <https://www.pinecone.io/>
    [HuggingFace Pretrained LLM]: <https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2>
+   [Azure Storage Account]: <https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview>
    [Python]: <https://www.python.org/>
    [Pip]: <https://pip.pypa.io/en/stable/installation/>
