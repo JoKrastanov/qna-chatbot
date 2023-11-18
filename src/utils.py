@@ -25,8 +25,8 @@ def clean_html_file(html_contents):
     """
         Using `BeautifulSoup`, we extract all the JS and CSS from the HTML file,
         format the text by removing white-space and adding line breaks 
-    """    
-    
+    """
+
     soup = bs4.BeautifulSoup(html_contents, 'html.parser')
 
     images = []
@@ -40,8 +40,9 @@ def clean_html_file(html_contents):
     # Remove all unwanted tags
     for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
         script.extract()
-    
-    filtered_images = [path for path in images if any(path.endswith(ext) for ext in allowed_extensions)]
+
+    filtered_images = [path for path in images if any(
+        path.endswith(ext) for ext in allowed_extensions)]
 
     # Removes the redundant info table at the bottom of each document
     element = soup.find("table", id="infobox_support")
@@ -53,9 +54,10 @@ def clean_html_file(html_contents):
     # Formulate HTML contents into a single text, removing white-space and adding line formatting
     lines = (line.strip() for line in text.splitlines())
     formatted_lines = (phrase.strip()
-    for line in lines for phrase in line.split("  "))
+                       for line in lines for phrase in line.split("  "))
     formatted_text = '. '.join(line for line in formatted_lines if line)
-    processed_text = formatted_text.replace('\n', ' ').replace(" One moment please...", '')
+    processed_text = formatted_text.replace(
+        '\n', ' ').replace(" One moment please...", '')
 
     return [processed_text, filtered_images]
 
@@ -74,6 +76,7 @@ def extract_contents(html):
             split_text (List[str]) : The contents of the HTML file split in chunks,
             according to the config of the `split_text` function.
             filtered_images (List[str]): Path to all images within the HTML file
+            file_name (str): The name of the uploaded file
     """
     try:
         html_contents = read_html_file(html)
@@ -86,9 +89,17 @@ def extract_contents(html):
         print(
             f"An error occurred while extracting text content from HTML: {str(e)}")
         return None
-    
+
 
 def create_img_tags(images):
+    """ Creates HTML <img/> tags used in the chatbot's responses
+
+        Args:
+            images (List[str]) : URL paths to the images in the Azure Blob Storage Account
+
+        Returns:
+            img_tags (List[str]): HTML img tags with the src property pointing to the url of the images
+    """
     img_tags = ''
     for image in images:
         img_tags += f'<img width="100%" height="200" src="{image}"/>'
