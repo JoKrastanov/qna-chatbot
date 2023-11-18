@@ -13,44 +13,39 @@ from streamlit.components.v1 import html
 dotenv.load_dotenv()
 openai.api_key = os.getenv('OPENAI-API-KEY')
 
+# Initialize user message history
 st.session_state.setdefault(
     'user', []
 )
+# Initialize chatbot message history
 st.session_state.setdefault(
     'chatbot',
     [{"data": "Welcome to SupportAI! Your AI powered support chatbot for the Exact Globe system. \n\n How can I help you?"}]
 )
 
 # header of the app
-_, col2, _ = st.columns([1, 7, 1])
-with col2:
-    col2 = st.header("Axians SupportAI")
-    # Keep track of uploaded HTML files
-    html = False
-    # Keep track of the provided user question
-    query = False
+st.header("Axians SupportAI",divider="grey")
 
-    st.sidebar.header("Add to Chatbot knowledge")
+# app sidebar (for uploading files)
+st.sidebar.header("Add to Chatbot knowledge")
+html = st.sidebar.file_uploader(
+    "Choose an HTML file", type="html", accept_multiple_files=True)
 
-    html = st.sidebar.file_uploader(
-        "Choose an HTML file", type="html", accept_multiple_files=True)
+def submit_file():
+    try:
+        with st.spinner("Updating the knowledgebase..."):
+            for doc in html:
+                [data, images, file_name] = utils.extract_contents(doc)
+                azure_storage.upload_images(images, file_name)
+                vector_search.upload_chunks(data, file_name)
+        st.success("Knowledgebase updated")
+    except Exception as e:
+        st.error(e)
 
 # Handle uploading of files
 if html:
     st.sidebar.markdown("File successfully uploaded!")
-    submit_button = st.sidebar.button("Send")
-
-    if submit_button:
-        try:
-            with st.spinner("Updating the knowledgebase..."):
-                for doc in html:
-                    [data, images] = utils.extract_text_from_html(doc)
-                    file_name = utils.get_file_name(doc)
-                    azure_storage.upload_images(images, file_name)
-                    vector_search.upload_chunks(data, file_name)
-            st.success("Knowledgebase updated")
-        except Exception as e:
-            st.error(e)
+    submit_button = st.sidebar.button("Send", on_click=submit_file)
 
 query = st.chat_input("Ask a question")
 

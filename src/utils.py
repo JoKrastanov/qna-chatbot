@@ -32,13 +32,14 @@ def clean_html_file(html_contents):
     images = []
     allowed_extensions = [".png", ".jpg", ".jpeg", ".gif"]
 
+    for img in soup(["img"]):
+        img_url = f'./data/{img["src"]}'
+        if img_url != "./data/images/wait.gif":
+            images.append(img_url)
+
     # Remove all unwanted tags
     for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
         script.extract()
-
-    for img in soup(["img"]):
-        imgUrl = f'./data/{img["src"]}'
-        images.append(imgUrl)
     
     filtered_images = [path for path in images if any(path.endswith(ext) for ext in allowed_extensions)]
 
@@ -63,7 +64,7 @@ def get_file_name(html_file):
     return os.path.splitext(html_file.name)[0]
 
 
-def extract_text_from_html(html):
+def extract_contents(html):
     """ Extracts the valueable contents of the HTML file provided
 
         Args:
@@ -78,8 +79,9 @@ def extract_text_from_html(html):
         html_contents = read_html_file(html)
         [text, filtered_images] = clean_html_file(html_contents)
         chunked_text = split_text(text)
+        file_name = get_file_name(html)
 
-        return [chunked_text, filtered_images]
+        return [chunked_text, filtered_images, file_name]
     except Exception as e:
         print(
             f"An error occurred while extracting text content from HTML: {str(e)}")
