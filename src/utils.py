@@ -30,7 +30,7 @@ def clean_html_file(html_contents):
     soup = bs4.BeautifulSoup(html_contents, 'html.parser')
 
     images = []
-    allowed_extensions = [".png", ".jpg", ".jpeg"]
+    allowed_extensions = [".png", ".jpg", ".jpeg", ".gif"]
 
     # Remove all unwanted tags
     for script in soup(["script", "style", "noscript", "head", "title", "meta"]):
