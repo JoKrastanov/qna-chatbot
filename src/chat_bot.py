@@ -9,7 +9,7 @@ chat_history = []
 def create_prompt(context, query):
     header = """
     You are a support chatbot for the Exact Globe ERP system.
-    Answer the question as truthfully as possible using the provided context in a couple of sentences
+    Answer the question as truthfully as possible using only the provided context in a couple of sentences
     You can use the provided chat history to get additional context regarding the question.
     If the answer is not contained within the text and requires further information to be answered,
     respond with 'I'm sorry, I do not have that information.'
@@ -32,6 +32,7 @@ def get_answer(context, query):
         Returs:
             GPT generated answer based on the provided context
     """
+    
     prompt_input = create_prompt(context, query)
     response = openai.ChatCompletion.create(
         model=openai_model,

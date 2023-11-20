@@ -1,19 +1,20 @@
 import os
 import uuid
 import pinecone
-from sentence_transformers import SentenceTransformer
 import dotenv
+from langchain.embeddings.openai import OpenAIEmbeddings
 
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 dotenv.load_dotenv()
 
-index_name = 'support-qna'
-pre_trained_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+index_name = 'langchain'
+pre_trained_model = 'text-embedding-ada-002'
 
+openai_key = os.getenv('OPENAI-API-KEY')
 pinecone_api_key = os.getenv('PINECONE-KEY')
 pinecone_env = os.getenv('PINECONE-ENV')
 
-model = SentenceTransformer(pre_trained_model)
+model = OpenAIEmbeddings(openai_api_key=openai_key ,model=pre_trained_model)
 pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
 
 if index_name not in pinecone.list_indexes():
@@ -21,7 +22,7 @@ if index_name not in pinecone.list_indexes():
     pinecone.create_index(
         name=index_name,
         metric='cosine',
-        dimension=384
+        dimension=1536
     )
 index = pinecone.Index(index_name)
 
@@ -36,15 +37,15 @@ def upload_chunks(chunk_data, file_title):
     if file_title:
         for chunk in chunk_data:
 
-            encoded_chunk = model.encode(chunk).tolist()
+            encoded_chunk = model.embed_query(chunk)
             chunk_id = str(uuid.uuid4())
 
             vector = {
                 'id': chunk_id,
                 'values': encoded_chunk,
                 'metadata': {
-                    'title': file_title,
-                    'context': chunk
+                    'source': file_title,
+                    'text': chunk
                 }
             }
 
@@ -59,13 +60,13 @@ def find_best_matches(query, k=3):
         k (int): The number of results to return for each query. Must be an integer greater than 1. Default = 3
     """
 
-    query_em = model.encode(str(query)).tolist()
+    query_em = model.embed_query(str(query))
     result = index.query(query_em, top_k=k, includeMetadata=True)
     context_arr = []
     name_arr = []
     for i in range(len(result['matches'])):
-        name = result['matches'][i]['metadata']['title']
-        context = result['matches'][i]['metadata']['context']
+        name = result['matches'][i]['metadata']['source']
+        context = result['matches'][i]['metadata']['text']
         name_arr.append(name)
         context_arr.append(context)
     return [list(set(name_arr)), context_arr]
