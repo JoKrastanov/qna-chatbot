@@ -26,6 +26,8 @@ SupportAI uses a number of external resouces listed below:
 - [Pinecone] - database that stores data as mathematical vectors
 - [HuggingFace Pretrained LLM] - Pretrained multilingual llm that transforms sentences to vectors
 - [Azure Storage Account] - unique namespace for your Azure Storage data that's accessible from anywhere in the world over HTTP or HTTPS.
+- [Docker Engine] - helps developers build, share, and run applications anywhere — without tedious environment configuration or management
+- [Docker-compose] -  tool for defining and running multi-container Docker applications
 
 ## Prerequisites
 - Pincone project + api key
@@ -69,6 +71,15 @@ Local URL: http://localhost:8502
 Network URL: http://192.168.178.243:8502
 ```
 
+#### Using the Official Docker container
+SupportAI can be run using the docker-compose.yml file. All you need to do is provide an `.env` file in the `/app` folder with the 
+abovemenitoned variables. After you do that simply run:
+
+```sh
+docker-compose up
+```
+> NOTE: In order for this method to work you need both Docker Engine and the Compose plugin installed and running on your machine
+
 You should see an interface that looks like this:
 ![image](https://github.com/Axians-AI/AxiansSupportAI/assets/102069965/e35952bb-d2ab-47e1-a286-9a4fa106c99f)
 
@@ -85,3 +96,5 @@ You should see an interface that looks like this:
    [Azure Storage Account]: <https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview>
    [Python]: <https://www.python.org/>
    [Pip]: <https://pip.pypa.io/en/stable/installation/>
+   [Docker Engine]: <https://www.docker.com/>
+   [Docker-compose]: <https://docs.docker.com/compose/>
