@@ -18,7 +18,7 @@ python -m venv .\.venv
 .\.venv\Scripts\Activate.ps1
 
 # 4. Install app requirements
-pip install -r .\requirements.txt
+pip install -r .\app\requirements.txt
 
 # 5. Run application
-streamlit run .\main.py
+streamlit run .\app\main.py

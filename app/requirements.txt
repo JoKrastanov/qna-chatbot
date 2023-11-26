@@ -1,0 +1,10 @@
+tiktoken==0.5.1
+azure-storage-blob==12.19.0
+beautifulsoup4==4.12.2
+langchain==0.0.340
+nltk==3.8.1
+openai==0.27.8
+pinecone_client==2.2.2
+python-dotenv==1.0.0
+streamlit==1.28.1
+streamlit_chat==0.1.1
