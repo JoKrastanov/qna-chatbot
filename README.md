@@ -1,8 +1,6 @@
 # SupportAI
 ## _Support Made Simple_
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 SupportAI is an AI chatbot which uses a predefined knowledge base to answer questions
 regarding the Exact Globe CMS.
 
