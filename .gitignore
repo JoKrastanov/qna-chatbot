@@ -8,8 +8,6 @@ __pycache__/
 
 data/
 
-file_uploader.py
-
 qaenv/
 
 # Distribution / packaging
