@@ -21,9 +21,9 @@ def dispatch_email(body):
     msg['From'] = sender
     msg['To'] = ', '.join(recipients)
     with smtplib.SMTP_SSL(server, port) as smtp_server:
-       smtp_server.login(sender, password)
-       smtp_server.sendmail(sender, recipients, msg.as_string())
-    print("Message sent!")
+        smtp_server.login(sender, password)
+        smtp_server.sendmail(sender, recipients, msg.as_string())
+        st.sidebar.success("Your email has been sent successfully!")
 
 def send_email(bot_chat_history, user_chat_history, contents, user_email):
     """ Sends email with chat history to support team
@@ -46,7 +46,7 @@ def send_email(bot_chat_history, user_chat_history, contents, user_email):
     support_mail = "Chat history: \n\n"
     for i in range(len(bot_chat_history)):
         chat_msg = bot_chat_history[i]['data']
-        soup = bs4.BeautifulSoup(chat_msg)
+        soup = bs4.BeautifulSoup(chat_msg, 'html.parser')
         for img in soup(["img"]):
             img.extract()
         clean_chat_msg = soup.get_text()
@@ -57,4 +57,3 @@ def send_email(bot_chat_history, user_chat_history, contents, user_email):
     support_mail += f"Current question: {contents} \n\n"
     support_mail += f"User email: {user_email}"
     dispatch_email(support_mail)
-    st.sidebar.success("Your email has been sent successfully!")
