@@ -39,6 +39,7 @@ PINECONE-KEY={your-pinecone-key}
 PINECONE-ENV={your-pinecone-env}
 AZURE-STORAGE-CONNECTION-STRING={your-azure-storage-connection-string}
 AZURE-BLOB-CONTAINER={your-blob-container-name}
+SUPPORT-EMAIL={your-support-team-email}
 ```
 
 ## Installation
