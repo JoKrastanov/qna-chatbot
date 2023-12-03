@@ -10,7 +10,7 @@ COPY ./src /app/src
 
 EXPOSE 8501
 
-RUN useradd -m myuser
-USER myuser
+RUN useradd -m supportboi
+USER supportboi
 
 CMD ["streamlit", "run", "--server.port", "8501", "/app/main.py"]
