@@ -2,10 +2,28 @@ import bs4
 import streamlit as st
 import os
 import dotenv
+import smtplib
+from email.mime.text import MIMEText
 
 dotenv.load_dotenv()
 
-email = os.getenv('SUPPORT-EMAIL')
+sender = os.getenv('SUPPORT-SENDER')
+password = os.getenv('SUPPORT-PASSWORD')
+recipients = [os.getenv('SUPPORT-EMAIL')]
+subject = "SupportAI Question"
+port = 465
+server = 'smtp.gmail.com'
+
+
+def dispatch_email(body):
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    with smtplib.SMTP_SSL(server, port) as smtp_server:
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipients, msg.as_string())
+    print("Message sent!")
 
 def send_email(bot_chat_history, user_chat_history, contents, user_email):
     """ Sends email with chat history to support team
@@ -38,7 +56,5 @@ def send_email(bot_chat_history, user_chat_history, contents, user_email):
             support_mail += f"User: {user_msg} \n\n"
     support_mail += f"Current question: {contents} \n\n"
     support_mail += f"User email: {user_email}"
-    support_mail = f"Send To: {email} \n\n" + support_mail
-    # st.info(support_mail)
-    ## TODO: Figure out how to send the email to the support address through streamlit
+    dispatch_email(support_mail)
     st.sidebar.success("Your email has been sent successfully!")
