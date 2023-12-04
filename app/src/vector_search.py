@@ -7,7 +7,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 dotenv.load_dotenv()
 
-index_name = 'langchain'
+index_name = 'support-ai'
 pre_trained_model = 'text-embedding-ada-002'
 
 openai_key = os.getenv('OPENAI-API-KEY')
@@ -44,8 +44,8 @@ def upload_chunks(chunk_data, file_title):
                 'id': chunk_id,
                 'values': encoded_chunk,
                 'metadata': {
-                    'source': file_title,
-                    'text': chunk
+                    'name': file_title,
+                    'context': chunk
                 }
             }
 
@@ -65,8 +65,8 @@ def find_best_matches(query, k=3):
     context_arr = []
     name_arr = []
     for i in range(len(result['matches'])):
-        name = result['matches'][i]['metadata']['source']
-        context = result['matches'][i]['metadata']['text']
+        name = result['matches'][i]['metadata']['name']
+        context = result['matches'][i]['metadata']['context']
         name_arr.append(name)
         context_arr.append(context)
     return [list(set(name_arr)), context_arr]
