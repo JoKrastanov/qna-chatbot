@@ -7,9 +7,9 @@ from email.mime.text import MIMEText
 
 dotenv.load_dotenv()
 
-sender = os.getenv('SUPPORT-SENDER')
-password = os.getenv('SUPPORT-PASSWORD')
-recipients = [os.getenv('SUPPORT-EMAIL')]
+sender = os.getenv('SUPPORT_SENDER')
+password = os.getenv('SUPPORT_PASSWORD')
+recipients = [os.getenv('SUPPORT_EMAIL')]
 subject = "SupportAI Question"
 port = 465
 server = 'smtp.gmail.com'

@@ -12,7 +12,7 @@ from streamlit.components.v1 import html
 
 # Load env variables (secure way of storing sensitive data like API_KEYS/passwords/etc.)
 dotenv.load_dotenv()
-openai.api_key = os.getenv('OPENAI-API-KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Initialize user message history
 st.session_state.setdefault(

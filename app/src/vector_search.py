@@ -10,9 +10,9 @@ dotenv.load_dotenv()
 index_name = 'support-ai'
 pre_trained_model = 'text-embedding-ada-002'
 
-openai_key = os.getenv('OPENAI-API-KEY')
-pinecone_api_key = os.getenv('PINECONE-KEY')
-pinecone_env = os.getenv('PINECONE-ENV')
+openai_key = os.getenv('OPENAI_API_KEY')
+pinecone_api_key = os.getenv('PINECONE_KEY')
+pinecone_env = os.getenv('PINECONE_ENV')
 
 model = OpenAIEmbeddings(openai_api_key=openai_key ,model=pre_trained_model)
 pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)

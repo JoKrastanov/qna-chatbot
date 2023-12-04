@@ -4,8 +4,8 @@ from azure.storage.blob import BlobServiceClient
 
 dotenv.load_dotenv()
 
-conn_str= os.getenv('AZURE-STORAGE-CONNECTION-STRING')
-container=os.getenv('AZURE-BLOB-CONTAINER')
+conn_str= os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+container=os.getenv('AZURE_BLOB_CONTAINER')
 
 blob_service_client = BlobServiceClient.from_connection_string(conn_str=conn_str)
 container_client = blob_service_client.get_container_client(container=container)
