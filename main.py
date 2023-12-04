@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit_chat as chat
 import openai
 import dotenv
-import src.azure_storage as azure_storage
+# import src.azure_storage as azure_storage
 import src.utils as utils
 import src.chat_bot as chat_bot
 import src.vector_search as vector_search
@@ -36,7 +36,7 @@ def submit_file():
         with st.spinner("Updating the knowledgebase..."):
             for doc in html:
                 [data, images, file_name] = utils.extract_contents(doc)
-                azure_storage.upload_images(images, file_name)
+                # azure_storage.upload_images(images, file_name)
                 vector_search.upload_chunks(data, file_name)
         st.success("Knowledgebase updated")
     except Exception as e:
@@ -56,10 +56,10 @@ if query:
         [files, res] = vector_search.find_best_matches(query)
         context = "\n\n".join(res)
         answer = chat_bot.get_answer(context, query)
-        images = azure_storage.get_files_images(files)
-        if images:
-            answer += f"\n\n {utils.create_img_tags(images)}"
-        st.session_state['chatbot'].append({"data": answer})
+        # images = azure_storage.get_files_images(files)
+        # if images:
+        #     answer += f"\n\n {utils.create_img_tags(images)}"
+        # st.session_state['chatbot'].append({"data": answer})
     except Exception as e:
         st.error(e)
 
