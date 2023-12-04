@@ -1,13 +1,13 @@
 import os
 import dotenv
-import azure.storage.blob as blob
+from azure.storage.blob import BlobServiceClient
 
 dotenv.load_dotenv()
 
 conn_str= os.getenv('AZURE-STORAGE-CONNECTION-STRING')
 container=os.getenv('AZURE-BLOB-CONTAINER')
 
-blob_service_client = blob.BlobServiceClient.from_connection_string(conn_str=conn_str)
+blob_service_client = BlobServiceClient.from_connection_string(conn_str=conn_str)
 container_client = blob_service_client.get_container_client(container=container)
 
 def upload_images(images, file_name):
