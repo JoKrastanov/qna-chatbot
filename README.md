@@ -5,13 +5,15 @@ SupportAI is an AI chatbot which uses a predefined knowledge base to answer ques
 regarding the Exact Globe CMS.
 
 - Contribute to knowledgebase
-  > In order to contribute to the knowledgebase put your data in a `data` folder and make sure that if you have images, they are also in the folder so that they can be uploaded to the blob storage 
+  > In order to contribute to the knowledgebase put your data in a `data` folder and make sure that if you have images, they are also in the folder so that they can be uploaded to the blob storage
+  > Contributing to the knowledgebase can be done by running the `file_uploader.py`
 - Ask questions and recieve answers
 
 ## Features
 
 - Upload HTML files to the knowledgebase of the application
 - Ask questions regarding features and issues in relation to the Exact Globe CMS
+- Send questions directly to the support department via email if the chatbot is unable to answer questions
 
 ## Tech
 
@@ -31,16 +33,21 @@ SupportAI uses a number of external resouces listed below:
 - Pincone project + api key
 - OpenAI API key
 - Azure Subscription + storage account
+- Gmail account to use as middle-man between user and support department
 
 Create a `.env` file in the root of the project and include the following contents:
 ```sh
-OPENAI-API-KEY={your-openai-key}
-PINECONE-KEY={your-pinecone-key}
-PINECONE-ENV={your-pinecone-env}
-AZURE-STORAGE-CONNECTION-STRING={your-azure-storage-connection-string}
-AZURE-BLOB-CONTAINER={your-blob-container-name}
-SUPPORT-EMAIL={your-support-team-email}
+OPENAI_API_KEY={your-openai-key}
+PINECONE_KEY={your-pinecone-key}
+PINECONE_ENV={your-pinecone-env}
+AZURE_STORAGE_CONNECTION_STRING={your-azure-storage-connection-string}
+AZURE_BLOB_CONTAINER={your-blob-container-name}
+SUPPORT_EMAIL={your-support-team-email}
+SUPPORT_SENDER={gmail-middleman}
+SUPPORT_PASSWORD={gmail-middleman-passker}
 ```
+
+ > Gmail requires you to generate a passkey in order to allow less secure apps to access it (it will not work with your regular password)
 
 ## Installation
 
